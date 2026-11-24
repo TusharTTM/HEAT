@@ -89,7 +89,7 @@ export default function Profile() {
         </div>
         <button
           onClick={handleSaveLocation}
-          className="px-4 py-2 rounded-lg bg-accent-600 text-white text-sm font-medium hover:bg-accent-700 focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950 transition-colors"
+          className="px-4 py-2 rounded-lg bg-black text-white text-sm font-medium hover:bg-slate-800 focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950 transition-colors"
         >
           Save location
         </button>

@@ -162,14 +162,14 @@ export const metricDetails = {
   },
 };
 
-// Risk colors using single neutral ramp (slate) with accent for high/extreme
+// Risk colors: lime green = safe, red = heat danger.
 // One accent color used sparingly - for primary actions, selection, key figures
 // Nested radii: inner = outer - padding, min 4px. Controls 8-10, cards 12-16, panels 14-20
 export const riskColors = {
-  low: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-slate-700 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700' },
-  moderate: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-slate-600 dark:text-slate-400', border: 'border-slate-200 dark:border-slate-700' },
-  high: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-accent-600 dark:text-accent-400', border: 'border-slate-300 dark:border-accent-600' },
-  extreme: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-accent-600 dark:text-accent-400', border: 'border-slate-300 dark:border-accent-600' },
+  low: { bg: 'bg-accent-50 dark:bg-accent-900/30', text: 'text-accent-700 dark:text-accent-300', border: 'border-accent-300 dark:border-accent-700' },
+  moderate: { bg: 'bg-accent-50 dark:bg-accent-900/30', text: 'text-accent-700 dark:text-accent-300', border: 'border-accent-300 dark:border-accent-700' },
+  high: { bg: 'bg-danger-50 dark:bg-danger-900/30', text: 'text-danger-700 dark:text-danger-300', border: 'border-danger-300 dark:border-danger-700' },
+  extreme: { bg: 'bg-danger-600 dark:bg-danger-600', text: 'text-white dark:text-white', border: 'border-danger-600 dark:border-danger-600' },
 };
 
 export const riskOrder = ['low', 'moderate', 'high', 'extreme'];

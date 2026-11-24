@@ -12,7 +12,8 @@ const sampleQuestions = [
 ];
 
 export default function Assistant() {
-  const { apiUrl, apiKey, settings, updateSettings } = useSettings();
+  const { settings, updateSettings } = useSettings();
+  const { apiUrl = '', apiKey = '' } = settings;
   const [connected, setConnected] = useState(!!(apiUrl && apiKey));
   const [chatHistory, setChatHistory] = useState([]);
   const [input, setInput] = useState('');
@@ -92,7 +93,7 @@ export default function Assistant() {
                 className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-accent-500" />
             </div>
             <button type="submit" disabled={!apiUrl || !apiKey}
-              className="px-4 py-2 bg-accent-600 text-white rounded-lg font-medium text-sm hover:bg-accent-700 focus:ring-2 focus:ring-accent-500 disabled:opacity-50">
+              className="px-4 py-2 bg-black text-white rounded-lg font-medium text-sm hover:bg-slate-800 focus:ring-2 focus:ring-accent-500 disabled:opacity-50">
               Connect
             </button>
           </form>
@@ -110,7 +111,7 @@ export default function Assistant() {
               ) : (
                 chatHistory.map((msg, i) => (
                   <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-accent-600 text-white rounded-br-md' : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-md'}`}>
+                    <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-black text-white rounded-br-md' : 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-bl-md'}`}>
                       {msg.content}
                     </div>
                   </div>
@@ -139,7 +140,7 @@ export default function Assistant() {
                 className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-accent-500"
                 disabled={loading} />
               <button type="submit" disabled={!input.trim() || loading}
-                className="px-4 py-2 bg-accent-600 text-white rounded-lg font-medium hover:bg-accent-700 focus:ring-2 focus:ring-accent-500 disabled:opacity-50">
+                className="px-4 py-2 bg-black text-white rounded-lg font-medium hover:bg-slate-800 focus:ring-2 focus:ring-accent-500 disabled:opacity-50">
                 <LucideIcon name="send" size={20} />
               </button>
             </div>
