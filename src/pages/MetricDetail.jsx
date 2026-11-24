@@ -21,6 +21,22 @@ export default function MetricDetail() {
 
   const detail = metricDetails[metricId];
 
+  // Guard before reading detail.* below — otherwise an unknown metric id
+  // throws "Cannot read properties of undefined" and blanks the whole app.
+  if (!detail) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 mb-2">Metric not found</h1>
+          <p className="text-slate-500 dark:text-slate-400">The metric "{metricId}" does not exist.</p>
+          <Link to="/menu" className="mt-4 inline-block text-accent-600 dark:text-accent-400 hover:underline">
+            Back to Metrics
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   const timelineData = hourlyHeatRisk.map((hour) => ({
     hour: hour.hour,
     temp: hour.temp,
@@ -55,20 +71,6 @@ export default function MetricDetail() {
     'air-quality': 'AQI',
     'heat-risk': '',
   };
-
-  if (!detail) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 mb-2">Metric not found</h1>
-          <p className="text-slate-500 dark:text-slate-400">The metric "{metricId}" does not exist.</p>
-          <Link to="/menu" className="mt-4 inline-block text-accent-600 dark:text-accent-400 hover:underline">
-            Back to Metrics
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -116,7 +118,7 @@ export default function MetricDetail() {
                 <LucideIcon
                   name={trendIconName}
                   size={14}
-                  className={detail.trend === 'rising' ? 'text-accent-600' : detail.trend === 'falling' ? 'text-slate-400' : 'text-slate-400'}
+                  className={detail.trend === 'rising' ? 'text-danger-600' : detail.trend === 'falling' ? 'text-accent-600' : 'text-slate-400'}
                   aria-hidden="true"
                 />
                 <span className="text-slate-600 dark:text-slate-300">
@@ -142,46 +144,50 @@ export default function MetricDetail() {
       {/* 24-Hour Timeline - Charts: muted grid, muted mono labels, one accent color per chart */}
       <section className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800" aria-labelledby="hourly-heading">
         <h2 id="hourly-heading" className="font-medium text-slate-900 dark:text-slate-100 mb-4">24-Hour Timeline</h2>
-        <div className="relative h-48">
+        <div className="relative">
           {/* Muted grid lines */}
           <svg
-            viewBox="0 0 100 100"
-            className="w-full h-full"
+            viewBox="0 0 1000 300"
+            className="w-full h-auto"
             role="img"
             aria-label={`${detail.title} over 24 hours`}
           >
             <defs>
               {/* Muted gradient for chart area */}
               <linearGradient id="metricGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                <stop offset="0%" stopColor="#84cc16" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#84cc16" stopOpacity="0" />
               </linearGradient>
               {/* Muted grid pattern */}
-              <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse">
-                <path d="M 12 0 L 0 0 0 12" fill="none" stroke="#e2e8f0" strokeWidth="0.5" opacity="0.3"/>
+              <pattern id="grid" width="42" height="30" patternUnits="userSpaceOnUse">
+                <path d="M 42 0 L 0 0 0 30" fill="none" stroke="#e5e5e5" strokeWidth="1" opacity="0.35"/>
               </pattern>
             </defs>
             {/* Background grid */}
-            <rect x="0" y="0" width="100" height="100" fill="url(#grid)" />
+            <rect x="0" y="0" width="1000" height="300" fill="url(#grid)" />
             {/* Main chart line - one accent color */}
             <polyline
               fill="url(#metricGradient)"
-              stroke="#3b82f6"
-              strokeWidth="1.5"
+              stroke="#84cc16"
+              strokeWidth="3"
+              strokeLinejoin="round"
               points={timelineData.map((v, i) => {
-                const x = (i / 23) * 100;
+                const x = (i / 23) * 1000;
                 const normalized = (maxValue - minValue) > 0 ? (v.heatIndex - minValue) / (maxValue - minValue) : 0.5;
-                const y = 95 - normalized * 85;
+                const y = 275 - normalized * 245;
                 return x + ',' + y;
               }).join(' ')}
             />
             {/* Muted mono labels */}
-            <g fontSize="5" fill="#64748b" opacity="0.7">
-              {timelineData.filter((_, i) => i % 3 === 0).map((h, i) => (
-                <text key={i} x={(i * 3 / 23) * 100} y="98" textAnchor="middle">
-                  {h.hour}
-                </text>
-              ))}
+            <g fontSize="16" fill="#525252" opacity="0.75">
+              {timelineData.filter((_, i) => i % 3 === 0).map((h, i) => {
+                const x = Math.min(975, Math.max(25, (i * 3 / 23) * 1000));
+                return (
+                  <text key={i} x={x} y="298" textAnchor="middle">
+                    {h.hour}
+                  </text>
+                );
+              })}
             </g>
           </svg>
         </div>
@@ -270,7 +276,7 @@ export default function MetricDetail() {
               <LucideIcon
                 name={trendIconName}
                 size={16}
-                className={detail.trend === 'rising' ? 'text-accent-600' : detail.trend === 'falling' ? 'text-slate-400' : 'text-slate-400'}
+                className={detail.trend === 'rising' ? 'text-danger-600' : detail.trend === 'falling' ? 'text-accent-600' : 'text-slate-400'}
                 aria-hidden="true"
               />
               <span className="capitalize">{detail.trend}</span>

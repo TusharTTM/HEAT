@@ -31,7 +31,7 @@ function StatCard({ label, value, unit, change, reference, iconName, isPrimary }
   // Change indicator with reference value
   const changeClass = change && reference ? (
     <span className={`ml-2 text-sm ${
-      change > 0 ? 'text-accent-600' : change < 0 ? 'text-slate-500' : 'text-slate-400'
+      change > 0 ? 'text-danger-600' : change < 0 ? 'text-accent-600' : 'text-slate-400'
     }`}>
       {change > 0 ? '+' : ''}{change} vs {reference}
     </span>
@@ -130,8 +130,8 @@ function HourlyChart({ data, unit, metricId, riskColors, currentHour }) {
   const barWidth = 28;
   const gap = 6;
 
-  // Bright warm accent - heat index is the one bright element on the dashboard
-  const accentColor = '#f59e0b'; // amber-500
+  // Lime green highlight - the one bright element on the dashboard
+  const accentColor = '#84cc16'; // lime-500
 
   return (
     <div className="relative p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
@@ -139,7 +139,7 @@ function HourlyChart({ data, unit, metricId, riskColors, currentHour }) {
       <svg className="absolute inset-0 w-full h-full pointer-events-none -z-10">
         <defs>
           <pattern id={`grid-${metricId}`} width="40" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" strokeWidth="1" opacity="0.6" />
+            <path d="M 40 0 L 0 0 0 20" fill="none" stroke="#e5e5e5" strokeWidth="1" opacity="0.6" />
           </pattern>
         </defs>
         <rect x="0" y="0" width="100%" height="100%" fill={`url(#grid-${metricId})`} />
@@ -150,7 +150,7 @@ function HourlyChart({ data, unit, metricId, riskColors, currentHour }) {
           const heightPercent = ((d.value - minValue) / range) * 100;
           const barHeight = Math.max(4, (heightPercent / 100) * chartHeight);
           const isCurrent = i === currentHour;
-          const barColor = isCurrent ? accentColor : '#e2e8f0';
+          const barColor = isCurrent ? accentColor : '#e5e5e5';
 
           return (
             <div
@@ -164,7 +164,7 @@ function HourlyChart({ data, unit, metricId, riskColors, currentHour }) {
                 style={{ height: barHeight, backgroundColor: barColor }}
               />
               <span className={`text-[10px] font-mono ${isCurrent ? 'text-slate-900 dark:text-slate-100 font-medium' : 'text-slate-400 dark:text-slate-500'}`}>
-                {d.hour}
+                {i % 2 === 0 ? d.hour : ''}
               </span>
             </div>
           );
@@ -173,11 +173,11 @@ function HourlyChart({ data, unit, metricId, riskColors, currentHour }) {
 
       <div className="flex flex-wrap items-center justify-center gap-5 mt-3 text-xs">
         <span className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
-          <span className="w-3 h-1.5 rounded-full" style={{ backgroundColor: '#94a3b8' }} />
+          <span className="w-3 h-1.5 rounded-full" style={{ backgroundColor: '#a3a3a3' }} />
           Min: {minValue}{unit}
         </span>
         <span className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
-          <span className="w-3 h-1.5 rounded-full" style={{ backgroundColor: '#94a3b8' }} />
+          <span className="w-3 h-1.5 rounded-full" style={{ backgroundColor: '#a3a3a3' }} />
           Max: {maxValue}{unit}
         </span>
         <span className="flex items-center gap-1.5" style={{ color: accentColor }}>
@@ -277,7 +277,7 @@ export default function Dashboard() {
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="flex items-start gap-4">
-              <LucideIcon name="alert" className="w-5 h-5 mt-2 flex-shrink-0 text-slate-500 dark:text-slate-400" aria-hidden="true" />
+              <LucideIcon name="alert" className="w-5 h-5 mt-2 flex-shrink-0 text-danger-600 dark:text-danger-400" aria-hidden="true" />
               <div>
                 <h2 className="font-semibold text-slate-900 dark:text-slate-100">Heat screening</h2>
                 <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{heatScreening.description}</p>
@@ -289,7 +289,7 @@ export default function Dashboard() {
             {heatScreening.recommendations.map((rec, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-0.5">
-                  <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-semibold bg-accent-600 text-white rounded-full">
+                  <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-semibold bg-black text-white rounded-full">
                     {i + 1}
                   </span>
                 </span>
@@ -459,7 +459,7 @@ export default function Dashboard() {
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <LucideIcon name="shield-alert" className="w-5 h-5 text-slate-500 dark:text-slate-400" aria-hidden="true" />
+              <LucideIcon name="shield-alert" className="w-5 h-5 text-danger-600 dark:text-danger-400" aria-hidden="true" />
               <h2 className="font-semibold text-slate-900 dark:text-slate-100">Official warnings</h2>
             </div>
             <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300">

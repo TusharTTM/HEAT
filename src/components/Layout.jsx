@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useSettings } from '../hooks/useSettings.jsx';
+import { riskColors as sharedRiskColors } from '../data/mockData';
 
 /**
  * LucideIcon - A helper function that renders inline SVG icons
@@ -162,13 +163,8 @@ export function Layout() {
     { path: '/metric/heat-risk', label: 'Heat Risk', icon: 'alert' },
   ];
 
-  // Risk colors from settings or defaults
-  const riskColors = {
-    low: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-slate-700 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700' },
-    moderate: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-slate-600 dark:text-slate-400', border: 'border-slate-200 dark:border-slate-700' },
-    high: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-accent-600 dark:text-accent-400', border: 'border-slate-300 dark:border-accent-600' },
-    extreme: { bg: 'bg-slate-100 dark:bg-slate-900', text: 'text-accent-600 dark:text-accent-400', border: 'border-slate-300 dark:border-accent-600' },
-  };
+  // Risk colors shared with the dashboard (lime = safe, red = danger)
+  const riskColors = sharedRiskColors;
 
   function NavLink({ to, isActive, icon, label }) {
     return (
@@ -306,7 +302,7 @@ export function Layout() {
       )}
 
       {/* Main content - fluid, capped at 1440-1600px */}
-      <main className={`lg:ml-[240px] min-h-screen`}>
+      <main className="pt-16 lg:pt-0 lg:ml-[240px] min-h-screen">
         <div className="w-full max-w-[1440px] mx-auto px-4 py-6 lg:px-8 lg:py-8">
           <Outlet />
         </div>

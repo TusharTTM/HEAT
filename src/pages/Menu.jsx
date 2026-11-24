@@ -84,8 +84,8 @@ export default function Menu() {
             const colors = riskColors[risk];
             return (
               <div key={risk} className={`p-3 rounded-lg border text-center ${colors.border} ${colors.bg} ${colors.text}`}>
-                <div className="font-medium capitalize text-slate-700 dark:text-slate-300">{risk}</div>
-                <div className="text-xs mt-1 opacity-80 text-slate-500 dark:text-slate-400">
+                <div className="font-medium capitalize">{risk}</div>
+                <div className="text-xs mt-1 opacity-80">
                   {risk === 'low' && 'Safe for normal activity'}
                   {risk === 'moderate' && 'Caution advised'}
                   {risk === 'high' && 'Limit outdoor exertion'}
